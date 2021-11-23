@@ -9,7 +9,7 @@ ip = "192.168.178.59"
 port=8080
 restart = True
 
-
+"""
 passw = input("Enter password: ")
 encodedBytes = base64.b64encode(passw.encode("utf-8"))
 encodedStr = str(encodedBytes, "utf-8")
@@ -19,6 +19,7 @@ if encodedStr == workingpass:
     os.system("cls")
 else:
     exit()
+"""
 
 def main():
         sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -52,4 +53,3 @@ def main():
                 receiver.stop_server()
         conn.close()
 main()
- 
