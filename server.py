@@ -57,6 +57,8 @@ def connect():
 
 
 def exit(conn, command):
+    print(conn)
+    print(command)
     conn.send(command.encode())
     exit()
 
@@ -107,4 +109,5 @@ def lock(conn, command):
 
 def restart(conn, command):
     conn.send(command.encode())
+
 main()

