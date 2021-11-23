@@ -2,7 +2,7 @@ import socket
 import os
 import traceback
 import shutil
-from vidstream import ScreenShareClient
+#from vidstream import ScreenShareClient
 import threading
 import time
 import webbrowser
