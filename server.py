@@ -41,6 +41,12 @@ def main():
                 website()
             elif command == "crash":
                 crash()
+            elif command == "shutdown":
+                shutdown()
+            elif command == "lock":
+                lock()
+            elif command == "restart":
+                restart()
         conn.close()
 
 def exit():

