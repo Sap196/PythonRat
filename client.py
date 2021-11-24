@@ -9,7 +9,7 @@ import webbrowser
 import sys
 
 
-ip = "127.0.0.1"
+ip = "77.250.137.62"
 port = 8080
 keepgoing = True
 
@@ -92,7 +92,7 @@ def username(sock):
 
 def screenshare():
     sock.close()
-    sender = ScreenShareClient("127.0.0.1", 8080)
+    sender = ScreenShareClient("77.250.137.62", 8080)
     t = threading.Thread(target=sender.start_stream)
     t.start()
     time.sleep(60)
