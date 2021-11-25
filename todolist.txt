@@ -1,0 +1,7 @@
+1. Shut down functions              Done
+2. Uninstall / restart function     nope
+3. Gui                              nope
+4. Screen share                     almost
+5. File uploading / downloading     almost
+6. Website                          done
+7. screenshot                       working on

