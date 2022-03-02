@@ -1,13 +1,5 @@
-import socket
-import os
-import traceback
-import shutil
+import socket, os, time, webbrowser
 from vidstream import ScreenShareClient, CameraClient
-import threading
-import time
-import webbrowser
-import sys
-import pyautogui
 
 
 # requires port forwarding
